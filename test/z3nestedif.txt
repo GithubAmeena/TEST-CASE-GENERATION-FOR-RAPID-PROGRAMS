@@ -1,0 +1,12 @@
+Both IF are TRUE
+sat
+((count 3))
+((di1 1))
+both IF are FALSE
+sat
+((count 0))
+((di1 0))
+Skipped second IF 
+sat
+((count 3))
+((di1 0))

@@ -1,0 +1,6 @@
+Entering the  WHILE loop
+sat
+((i 0))
+Skipping the  WHILE loop
+sat
+((i 4))

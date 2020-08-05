@@ -1,0 +1,14 @@
+sat
+((count 0))
+IF condition TRUE
+sat
+((count 3))
+IF condition FALSE
+sat
+((count 0))
+IF condition TRUE
+sat
+((di1 1))
+IF condition FALSE
+sat
+((di1 0))

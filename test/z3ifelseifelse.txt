@@ -1,0 +1,9 @@
+IF condition TRUE
+sat
+((answer 1))
+ELSEIF condition TRUE
+sat
+((answer 2))
+ELSE condition TRUE
+sat
+((answer 0))
