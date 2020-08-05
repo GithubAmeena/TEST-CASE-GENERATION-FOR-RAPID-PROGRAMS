@@ -1,0 +1,25 @@
+Data Types Mapping from Rapid to Z3
+
+Z3 and rapid have slightly different data type support
+Thus a mapping is required from rapid to z3 before we can process it
+
+Data types rapid and their z3 mapping:
+---------------------------------------------------------------------------------------------------------
+1. num: num is standard data type in rapid for numbers, integer, real numbers
+Z3 mapping:
+Int: Int is used in rapid for integer type
+Real: Real is used for floating point type
+--------------------------------------------------------------------------------------------------------
+2. bool: bool is used for Boolean data types in rapid
+Z3 mapping:
+Bool: Bool is used for Boolean data types in z3
+---------------------------------------------------------------------------------------------------------
+3. pos: pos is a data type used to represent a 3d point in space used mainly for robotic movements
+	If pos variable is cor : = [10, 20, 30]
+   	Then we use cor.x for 10, cor.y for 20, cor.z for 30
+Z3 mapping:
+For pos, we declare 3 variables to manage the 3d point of given variable                
+	cor_x for cor.x
+	cor_y for cor.y
+	cor_z for cor.z
+---------------------------------------------------------------------------------------------------------
