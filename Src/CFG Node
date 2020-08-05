@@ -1,0 +1,29 @@
+package CFG;
+
+import java.util.*;
+
+//cfg node class to create node for cfg tree
+
+public class CFGNode {
+	
+	public String ConditionType; //stores type of condition i.e. if/else/elseif etc
+	public String Condition; //stores the actual condition
+	public String prevConditions;	// stores the condition leading up to that node
+	public ArrayList<CFGNode> nested; // array list for nested support
+	public CFGNode next;	//reference for next node in code flow
+	public CFGNode fal;		// reference for false node in case of condition
+	public CFGNode prev;	// reference for parent pointer
+	
+	public CFGNode(String ct,String c)
+	{
+		ConditionType=ct;
+		Condition=c;
+		nested=new ArrayList<CFGNode>();
+		next=null;
+		fal=null;
+		prev=null;
+		prevConditions="";
+	}
+	
+	
+}
