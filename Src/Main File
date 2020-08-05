@@ -1,0 +1,141 @@
+package MainModule;
+
+//main file to run
+
+import java.io.*;
+import java.util.*;
+import Functionality.ManageElse;
+import Functionality.ManageElseIf;
+import Functionality.ManageEndIf;
+import Functionality.ManageEndWhile;
+import Functionality.ManageIf;
+import Functionality.ManageVariable;
+import Functionality.ManageConstant;
+import Functionality.ManageWhile;
+import Functionality.ManageFor;
+import Functionality.ManageEndFor;
+import Functionality.ManageSkipWhile;
+import Functionality.ManageSkipEndWhile;
+import Functionality.ManageSkipFor;
+import Functionality.ManageSkipEndFor;
+import Functionality.ManageProc;
+import Functionality.ManageExp;
+
+public class MainFile {
+	
+	public static String input="C:\Users\Ameena\Desktop\pfd\PEMM\src\filesolar.txt";
+	public static String output="C:\\Users\\Ameena\\Desktop\\pfd\\PEMM\\src\\outputsolar.txt";
+	public static String z3="C:\\Users\\Ameena\\Desktop\\pfd\\PEMM\\src\\z3solar.txt";
+	public static HashMap<String,Integer> map = new HashMap<String,Integer>();
+	public static HashMap<String,String> actual_formal_map = new HashMap<String,String>();
+	public static int flag_proc = 1;
+	public static void  main(String agrs[]) throws IOException
+	{	
+		
+		FileReader fr=new FileReader(input); // path to source rapid file
+		FileWriter fw=new FileWriter(output,true); // path to output file
+		BufferedReader br=new BufferedReader(fr);
+		String lbl="";
+		while((lbl=br.readLine())!=null)	//read rapid file line by line
+		{	//System.out.println(lbl);
+			process(lbl);
+				// take necessary action depending on type of statement
+		}
+		br.close();
+		fr.close();
+		
+		
+		
+		fw.write("(check-sat)\n");
+		fw.write("(get-model)");
+		fw.close();
+		
+		
+		FileReader fr2=new FileReader(output); //path to output file
+		FileWriter fw2=new FileWriter(z3,true); // path to modified z3 file
+		BufferedReader br2=new BufferedReader(fr2);
+		String line="";
+		String temp="";
+		while((line=br2.readLine())!=null) { //manage 3d point variable
+			String word[]=line.split(" ");
+			for(int i=0;i<word.length;i++)
+			{
+				if(ManageVariable.posvar.containsKey(word[i]))
+				{
+					word[i]=ManageVariable.posvar.get(word[i]);
+				}
+				temp=temp+word[i]+" ";
+			}
+			fw2.write(temp+"\n");
+			temp="";
+		}
+		
+		fw2.close();
+		br2.close();
+		System.out.println("\ntraversing the tree\n");
+		CFG.Traverse.mainfunction(); //used for traversing the file
+	}
+	
+	public static void process(String lbl) throws IOException // code to process each relevant line
+	{	
+		int flag = 0;
+		if(lbl.startsWith("VAR"))	
+		{
+			ManageVariable.mainfunction(lbl);
+			System.out.println(map);
+		}
+		if(lbl.startsWith("CONST"))
+		{
+			ManageConstant.mainfunction(lbl);
+		}
+		if(lbl.startsWith("IF"))
+		{
+			ManageIf.mainfunction(lbl,true);
+		}
+		if(lbl.startsWith("ELSE") && !lbl.startsWith("ELSEIF"))
+		{
+			ManageElse.mainfunction(lbl);
+		}
+		if(lbl.startsWith("ELSEIF"))
+		{
+			ManageElseIf.mainfunction(lbl,true);
+		}
+		if(lbl.startsWith("ENDIF"))
+		{
+			ManageEndIf.mainfunction(lbl);
+			ManageIf.mainfunction("IF",false);	
+		}
+		if(lbl.startsWith("WHILE"))
+		{	
+			ManageWhile.mainfunction(lbl,true);
+
+		}
+		if(lbl.startsWith("ENDWHILE"))
+		{	
+			ManageEndWhile.mainfunction(lbl);
+			ManageWhile.mainfunction(lbl,false);
+			
+		}
+		if(lbl.startsWith("FOR"))
+		{	
+			ManageFor.mainfunction(lbl,true);
+
+		}
+		if(lbl.startsWith("ENDFOR"))
+		{
+			ManageEndFor.mainfunction("ENDFOR");
+			ManageFor.mainfunction("FOR",false);	
+			
+		}
+		if(lbl.startsWith("PROC")){
+			ManageProc.mainfunction(lbl);
+			flag_proc = 2;
+		}
+		else{
+			if(flag_proc == 2)
+				ManageExp.mainfunction(lbl);
+		}
+
+	}
+	
+}
