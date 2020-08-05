@@ -1,0 +1,12 @@
+package CFG;
+
+import java.util.*;
+
+// tree for cfg 
+public class CFGTree {
+	
+	public static Stack<CFGNode> nd=new Stack<CFGNode>();
+	public static CFGNode head=null;
+	public static CFGNode tmp=null;
+
+}
